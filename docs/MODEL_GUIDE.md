@@ -35,6 +35,7 @@ This document serves as the canonical technical reference and engineering manual
   - [8.2. Composition and Overrides](#82-composition-and-overrides)
   - [8.3. Parameter Group Reference Dictionary](#83-parameter-group-reference-dictionary)
   - [8.4. Configuration Validation Engine](#84-configuration-validation-engine)
+  - [8.5. Onboarding: How to Run a New Experiment / Ablation](#85-onboarding-how-to-run-a-new-experiment--ablation)
 - [9. The Dataset: Sources, Construction, and Loading](#9-the-dataset-sources-construction-and-loading)
   - [9.1. Source Dataset Contract](#91-source-dataset-contract)
   - [9.2. Per-Source Configuration: the `hf_datasets` Item](#92-per-source-configuration-the-hf_datasets-item)
@@ -461,6 +462,29 @@ Additionally, `require_dataset_built(cfg)` runs at the train entry points (kept 
 Rules that need the actual backbone or checkpoint — compressor width vs hidden size, checkpoint token-map identity, LoRA depth vs layer count — are deliberately NOT config-level invariants; they are re-checked (or clamped) at model build time, where the real values exist.
 
 Violating any validation check raises a `ConfigError` naming the offending keys, stopping execution before any GPU work.
+
+### 8.5. Onboarding: How to Run a New Experiment / Ablation
+
+To test a new hypothesis, ablate a component, or sweep hyperparameters, do not edit the base configurations (`conf/train.yaml`, `conf/sft.yaml`, etc.) directly. Instead, create a dedicated experiment preset under the `conf/experiment/` directory.
+
+#### Step-by-Step Guide:
+1. **Create the preset file**: Add a new YAML file under `conf/experiment/`, e.g., `conf/experiment/my_ablation.yaml`.
+2. **Add the global package header**: Every experiment preset file **must** begin with the `# @package _global_` directive. Without this header, Hydra will nest your parameters under `experiment.*` instead of correctly overriding the root groups.
+3. **Specify the overrides**: Declare only the specific values or groups you want to change.
+   ```yaml
+   # @package _global_
+   trainer:
+     learning_rate: 1.0e-4
+     num_train_epochs: 2
+   ```
+4. **Launch the run**: Pass the experiment parameter to your make target or command:
+   ```bash
+   make train EXP="experiment=my_ablation"
+   # or for SFT:
+   make finetune EXP="experiment=my_ablation"
+   ```
+
+All unmodified parameters will carry over from the base yaml configs seamlessly.
 
 ---
 
