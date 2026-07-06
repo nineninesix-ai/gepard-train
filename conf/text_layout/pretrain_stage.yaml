@@ -1,0 +1,8 @@
+# Legacy single-copy layout (no repetition). See MODEL_GUIDE §5.2.
+# `enabled: false` reproduces the pre-repetition [SOT text EOT SOS] layout.
+enabled: false
+target_text_tokens: 16
+apply_below: 13
+max_repeats: 8
+mixed_keep_prob: 0.25
+seed: 0

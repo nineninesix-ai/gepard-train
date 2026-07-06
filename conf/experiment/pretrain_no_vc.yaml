@@ -1,0 +1,36 @@
+# @package _global_
+#
+# EXAMPLE experiment — a PRETRAIN ablation layered on `conf/train.yaml`.
+# It is NOT a phase; it only overrides the pretrain entry. Nothing loads it
+# unless you ask for it explicitly with `experiment=pretrain_no_vc`:
+#
+#     make train EXP="experiment=pretrain_no_vc"
+#     # …which expands to (run it directly if you prefer):
+#     accelerate launch --config_file accelerate/pretrain_fsdp.yaml \
+#         -m gepard.cli.train experiment=pretrain_no_vc
+#
+# Copy this file to conf/experiment/<your_name>.yaml and edit for your own
+# ablation. The `# @package _global_` header is REQUIRED — without it these
+# keys would nest under `experiment.*` instead of overriding the real groups.
+#
+# This preset demonstrates the OTHER override style from ft_wider_lora.yaml:
+# swapping a whole group via `defaults: - override /<group>: <choice>`, not just
+# point fields. What it changes vs. the train.yaml defaults (MODEL_GUIDE §12.8):
+#   • ablate voice cloning entirely — swap the whole voice_cloning group to
+#     `disabled`: no Q-Former compressor, no SupCon / diversity aux losses, plain
+#     batching (no P·K speaker sampler). Measures what voice conditioning
+#     contributes to the base model.
+#   • a shorter, cooler run for a quick signal: lr 9e-4 → 6e-4, 8 → 3 epochs
+#   • a distinct wandb run name so the ablation is easy to spot
+#
+# Everything else (tokens, codec, text layout OFF, dataset, LR multipliers)
+# stays exactly as train.yaml composed it.
+
+defaults:
+  - override /voice_cloning: disabled
+
+trainer:
+  learning_rate: 6.0e-4
+  num_train_epochs: 3
+  wandb:
+    name: PRETRAIN-NO-VC-1

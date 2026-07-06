@@ -1,0 +1,33 @@
+# DPO stage 4 — LoRA + stop_head training (Bradley-Terry, length-normalized).
+# See MODEL_GUIDE §7.2.
+out_dir: dpo_checkpoints
+beta: 2.0                         # length-normalized logprobs → larger beta than classic 0.1
+length_normalize: true           # per-frame average logprob (anti length-bias)
+stop_term_weight: 1.0
+p_floor: 1.0e-4                  # kept == dpo.p_floor (validated)
+reward_weight_mode: linear       # none | linear | clip
+reward_weight_scale: 3.5
+reward_weight_max: 4.0
+lora:
+  rank: 16
+  alpha: 32
+  dropout: 0.0
+  target_modules: [q_proj, v_proj]
+  last_n_layers: 16
+train_stop_head: true
+train_audio_heads: false
+learning_rate: 1.0e-5            # LoRA params
+stop_head_lr: 1.0e-4
+num_epochs: 2
+batch_pairs: 4
+grad_accum: 4
+warmup_steps: 100
+max_grad_norm: 1.0
+save_steps: 500
+save_merged: true                # export merged model.safetensors for TTSRunner
+log_steps: 10
+seed: 17
+wandb_project: your_project
+wandb_name: ""                   # empty → run_name
+entity: team
+report_to: wandb                 # none | wandb

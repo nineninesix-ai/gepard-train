@@ -1,0 +1,27 @@
+Gepard
+Copyright 2026 nineninesix.ai
+
+This product is licensed under the Apache License, Version 2.0 (see the LICENSE
+file). The Apache 2.0 license applies to the Gepard code in this repository.
+
+--------------------------------------------------------------------------------
+Third-party components
+--------------------------------------------------------------------------------
+
+This software downloads and uses the following third-party model at runtime. It
+is NOT bundled in this repository, and it is NOT covered by the Apache 2.0
+license above — it is governed by its own separate license, reproduced/linked
+below. Any use of Gepard that loads this model is additionally subject to that
+license.
+
+NVIDIA NeMo NanoCodec
+  Model:   nvidia/nemo-nano-codec-22khz-1.89kbps-21.5fps
+  Source:  https://huggingface.co/nvidia/nemo-nano-codec-22khz-1.89kbps-21.5fps
+  License: NVIDIA Open Model License Agreement (June 2024)
+           https://developer.nvidia.com/licenses/nvidia-open-model-license-agreement-june-2024.pdf
+  Notice:  Copyright (c) NVIDIA Corporation. The NanoCodec model is used as the
+           neural audio codec (encode/decode of speech to/from discrete FSQ
+           codes). It is provided by NVIDIA under the NVIDIA Open Model License
+           Agreement and is ready for commercial and non-commercial use under
+           the terms of that agreement. Review the license before redistribution
+           or deployment.

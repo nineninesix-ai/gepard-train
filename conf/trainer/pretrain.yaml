@@ -1,0 +1,39 @@
+# Pretrain schedule (4-GPU FSDP). See MODEL_GUIDE §3 (per-group LR multipliers).
+# effective batch = per_device(64) x GA(2) x num_processes(4) = 512
+
+output_dir: "/opt/dlami/nvme/checkpoints"
+# output_dir: "checkpoints"
+
+save_steps: 1000
+save_total_limit: 10
+num_train_epochs: 8
+per_device_train_batch_size: 64
+gradient_accumulation_steps: 2
+learning_rate: 9.0e-4
+lr_scheduler_type: "cosine"
+warmup_steps: 500
+max_grad_norm: 3.0
+optim: "adamw_torch_fused"
+bf16: true
+fp16: false
+logging_steps: 1
+report_to: ["wandb"]
+dataloader_num_workers: 14
+dataloader_persistent_workers: true
+dataloader_prefetch_factor: 2
+dataloader_pin_memory: true
+remove_unused_columns: false
+average_tokens_across_devices: false
+# Dataset location is the single source `data.train_dataset_path` (read at start;
+# training checks it is built). `keep_index_path` reweights a subset on top.
+keep_index_path: null
+expensive_metrics_every: 100
+audio_lr_multiplier: 0.5           # separate LR for audio components, MODEL_GUIDE §3.2
+embed_lr_multiplier: 0.2           # lower LR for embed_tokens, MODEL_GUIDE §3.4
+gradient_checkpointing: true
+seed: 42                           # feeds the SupCon speaker sampler
+weight_decay: 0.0
+wandb:
+  project: "proj_name"
+  name: "run_name"
+  entity: "your team"

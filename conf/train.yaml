@@ -1,0 +1,18 @@
+# Entry config for PRETRAIN. The SFT/LoRA phase has its own entry, conf/sft.yaml
+# (launched by `make finetune`) — not an experiment preset. See MODEL_GUIDE §8.2.
+defaults:
+  - _self_
+  - tokens: qwen3_5
+  - codec: nano_21_5
+  - text_layout: pretrain_stage    # repetition OFF for pretrain (§9.6)
+  - model: gepard
+  - voice_cloning: qformer_supcon  # Q-Former speaker prefix + SupCon (pretrain)
+  - data: full_corpus
+  - trainer: pretrain
+  - finetune: none
+  - optional experiment: null      # one-line phase preset overrides any group above
+
+run:
+  resume_from: null                # checkpoint dir to resume from
+  stage: pretrain                  # phase label frozen into the checkpoint's
+                                   #   training_metadata.json / model card (§12.3)

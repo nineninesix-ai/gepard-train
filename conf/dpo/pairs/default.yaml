@@ -1,0 +1,9 @@
+# DPO stage 3 — preference pairs + frozen-reference logprobs. See MODEL_GUIDE §7.1.
+chosen_max_wer: 0.2               # chosen must be genuinely good, not "least bad"
+chosen_dur_in_bounds: true
+chosen_not_truncated: true
+min_reward_margin: 0.5           # require R_chosen - R_rejected >= margin
+max_pairs_per_group: 2
+ref_checkpoint: ""               # empty → sampling.checkpoint
+ref_logp_batch: 8
+p_floor: 1.0e-4                  # kept == dpo.p_floor (validated)

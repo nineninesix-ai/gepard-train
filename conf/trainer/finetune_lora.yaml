@@ -1,0 +1,36 @@
+# LoRA short-phrase fine-tune schedule (single GPU). See MODEL_GUIDE §5, §7.4.
+# effective batch = per_device(16) x GA(4) x 1 = 64
+output_dir: "/opt/dlami/nvme/checkpoints-lora"
+save_steps: 1000
+save_total_limit: 50
+num_train_epochs: 3
+per_device_train_batch_size: 16
+gradient_accumulation_steps: 4
+learning_rate: 2.0e-4              # LoRA adapters train ~10x hotter than a full finetune
+lr_scheduler_type: "cosine"
+warmup_steps: 150
+max_grad_norm: 1.0
+optim: "adamw_torch_fused"
+bf16: true
+fp16: false
+logging_steps: 1
+report_to: ["wandb"]
+dataloader_num_workers: 8
+dataloader_persistent_workers: true
+dataloader_prefetch_factor: 2
+dataloader_pin_memory: true
+remove_unused_columns: false
+average_tokens_across_devices: false
+# Dataset location is the single source `data.train_dataset_path` (read at start).
+# Short-utterance reweight index (MODEL_GUIDE §5.3) applied on top; null → full dataset.
+keep_index_path: null #"/opt/dlami/nvme/finetun_dataset/keep_idx_short13_t50.npy"
+expensive_metrics_every: 200
+audio_lr_multiplier: 1.0           # frozen groups → left at 1.0
+embed_lr_multiplier: 1.0
+gradient_checkpointing: false      # frozen base → no backward through it
+seed: 42
+weight_decay: 0.0
+wandb:
+  project: "proj_name"
+  name: "run_name"
+  entity: "your team"

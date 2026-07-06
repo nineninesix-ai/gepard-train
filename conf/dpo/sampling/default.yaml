@@ -1,0 +1,24 @@
+# DPO stage 1 — rollout sampling with text-CFG. See MODEL_GUIDE §7.4.
+checkpoint: orgname/your_finetuned_model
+texts_file: assets/dpo_seed/short_focused_v2.jsonl
+speaker_pool: ""                  # if set, supersedes ref_audios
+ref_audios:
+  - assets/ref_audio/audio_en.wav
+  - assets/ref_audio/audio_ru.wav
+  - assets/ref_audio/linda.wav
+  - assets/ref_audio/nurisa_en.wav
+  - assets/ref_audio/ulan_emo.wav
+holdout_speakers: []
+null_prefix_prob: 0.15            # fraction of groups rolled out with null_prefix
+speakers_per_text: 5
+num_samples: 8                    # rollouts per (text, speaker) group
+temperature: 0.4                  # mirror production inference
+top_k: 0
+stop_threshold: 0.5
+cfg_scale: 3.0                    # text-CFG operating point, MODEL_GUIDE §7.4
+cfg_frames: 20                    # 0 = every frame; >0 = onset-only (first N)
+cfg_uncond_mode: empty_text
+cap_expected_multiple: 4.0        # adaptive frame cap = mult x expected_frames
+cap_min_frames: 80
+cap_max_frames: 300
+seed: 17

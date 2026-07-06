@@ -1,0 +1,14 @@
+# LoRA short-phrase fix — load a pretrained TTS checkpoint, freeze everything,
+# train only backbone adapters in the last N layers. See MODEL_GUIDE §5, §7.4.
+checkpoint_path: "nineninesix/gepard-1.0" # or your pretrained checkpoint
+freeze_backbone: true             # redundant under lora.enabled; kept for audit
+freeze_ref_compressor: true
+freeze_supcon_head: true
+freeze_null_prefix: true
+lora:
+  enabled: true
+  rank: 16
+  alpha: 32                        # scaling = alpha / rank = 2.0
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj]   # attention projections carry text→audio routing
+  last_n_layers: 16                # adapt the top half of the backbone only

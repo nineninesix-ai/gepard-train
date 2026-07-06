@@ -1,0 +1,12 @@
+# Backbone + multihead architecture. See MODEL_GUIDE §2–3, §6.
+backbone_id: "nineninesix/qwen3_5-full-attn-only-14" # base for pretrain start
+attn_implementation: "flash_attention_2"   # or "eager"
+dtype: "bfloat16"
+audio_embed_dim: 32               # per-frame audio-embedding width, MODEL_GUIDE §3.1
+# Backbone RoPE coverage. Our full-attention build uses full rotary (1.0). On load
+# the downloaded backbone config.json is reconciled to this value if it differs.
+partial_rotary_factor: 1.0
+stop_loss_weight: 2.0             # lambda on the stop BCE term, MODEL_GUIDE §6.1
+stop_pos_weight: 25.0             # positive-class weight for stop BCE, MODEL_GUIDE §6.1
+# 32 heads derived from codec geometry (MODEL_GUIDE §2.3), not hand-listed.
+audio_heads: ${gepard.audio_heads:${codec.num_layers},${codec.fsq_levels}}

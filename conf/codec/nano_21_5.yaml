@@ -1,0 +1,9 @@
+# GroupFSQ codec geometry — global invariant. See MODEL_GUIDE §2.2–2.3.
+# Defines the 32-head mixed-radix layout (num_layers x fsq_levels) and the frame
+# rate; seeded into the checkpoint config.json so inference is codec-consistent.
+num_layers: 8
+fsq_levels: [8, 7, 6, 6]        # per-dimension FSQ levels (was `fsq_Levels`)
+do_unfold: true
+frame_rate_hz: 21.5
+codec_id: "nvidia/nemo-nano-codec-22khz-1.89kbps-21.5fps"
+sample_rate: 22050

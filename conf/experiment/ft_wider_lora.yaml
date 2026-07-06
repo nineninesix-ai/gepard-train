@@ -1,0 +1,36 @@
+# @package _global_
+#
+# EXAMPLE experiment — a fine-tune (SFT) ablation layered on `conf/sft.yaml`.
+# It is NOT a phase; it only overrides a few fields of the SFT entry. Nothing
+# loads it unless you ask for it explicitly with `experiment=ft_wider_lora`:
+#
+#     make finetune EXP="experiment=ft_wider_lora"
+#     # …which expands to (run it directly if you prefer):
+#     accelerate launch --config_file accelerate/finetune_single.yaml \
+#         -m gepard.cli.sft experiment=ft_wider_lora
+#
+# Copy this file to conf/experiment/<your_name>.yaml and edit for your own
+# ablation. The `# @package _global_` header is REQUIRED — without it these
+# keys would nest under `experiment.*` instead of overriding the real groups.
+#
+# What this ablation changes vs. the sft.yaml defaults (see MODEL_GUIDE §12.8):
+#   • wider LoRA: rank 16 → 32 (alpha kept at 2x scaling = 64)
+#   • deeper reach: MLP projections added to the adapted modules
+#     (attention-only → attention + MLP)
+#   • gentler schedule for the larger adapter: lr 2e-4 → 1e-4, 3 → 2 epochs
+#   • a distinct wandb run name so the experiment is easy to spot
+#
+# Everything else (checkpoint, freezing, text layout, voice cloning, dataset)
+# stays exactly as sft.yaml composed it — that is the whole point of a preset.
+
+finetune:
+  lora:
+    rank: 32
+    alpha: 64                        # scaling alpha/rank kept at 2.0
+    target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+
+trainer:
+  learning_rate: 1.0e-4
+  num_train_epochs: 2
+  wandb:
+    name: SFT-WIDER-LORA-1

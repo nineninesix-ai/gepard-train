@@ -1,0 +1,23 @@
+# Entry config for the LoRA short-phrase fine-tune (SFT phase). Sibling of
+# train.yaml — SAME trainer classes and model init, DIFFERENT phase composition.
+# Launched by `make finetune` (single-GPU accelerate profile). Deliberately a
+# first-class entry, not an `experiment=` preset, so the whole phase reads in one
+# file. See MODEL_GUIDE §5 (short-register fix), §12.4 (Phase II).
+defaults:
+  - _self_
+  - tokens: qwen3_5
+  - codec: nano_21_5
+  - text_layout: repeat_ft         # repetition ON — the short-register fix (§9.6);
+                                   #   stamped into gepard_config.json for inference
+  - model: gepard
+  - voice_cloning: qformer_frozen  # prefix present but compressor FROZEN; no SupCon
+                                   #   / diversity / P·K+M sampler → plain batching (§9.10)
+  - data: full_corpus              # NOTE: point data.train_dataset_path (+ trainer.
+                                   #   keep_index_path) at the repeat_ft finetune corpus
+  - trainer: finetune_lora
+  - finetune: sft_lora             # load pretrained ckpt, freeze all, train LoRA only
+  - optional experiment: null
+
+run:
+  resume_from: null                # checkpoint dir to resume from
+  stage: sft                       # phase label frozen into training_metadata.json

@@ -1,0 +1,40 @@
+# Voice cloning ON — Q-Former compressor trained with SupCon (pretrain).
+# See MODEL_GUIDE §4 (compressor, CFG-dropout, leakage regularization §4.3).
+enabled: true
+reference_sampling:
+  l_min_seconds: 3.0
+  l_max_seconds: 15.0
+  min_ref_duration_seconds: 3.0
+  singleton_min_target_for_slice: 6.0
+  use_self_reference: false
+compressor:                       # MODEL_GUIDE §4.1
+  num_queries: 8                  # K — bottleneck against copy-paste leakage
+  num_layers: 2
+  num_heads: 8
+  d_model: 1024                   # null → inherit backbone hidden_size
+  ffn_hidden_size_multiplier: 4
+  dropout: 0.1
+  queries_init_std: 0.02
+  lr_multiplier: 0.1              # LR for ref_compressor.* + null_prefix
+training:
+  cfg_dropout_prob: 0.15          # MODEL_GUIDE §4.2
+  null_prefix_init_std: 0.02
+  diversity_loss:                 # MODEL_GUIDE §4.3 (hinge-variance, V1 fix)
+    enabled: true
+    gamma: 0.5
+    weight: 0.3
+    warmup_start: 1000
+    ramp_steps: 1500
+  supcon:                         # MODEL_GUIDE §4.3 (SupCon + P·K+M batches)
+    enabled: true
+    P: 16                         # unique speakers per batch
+    K: 3                          # clips per speaker (positives = K-1)
+    M: 16                         # null rows mixed in (P*K + M == batch size)
+    weight: 0.3
+    warmup_start: 1000
+    ramp_steps: 500
+    temperature: 0.1
+    use_projection: true
+    projection_hidden_dim: 128
+    projection_dim: 128
+    gather_across_ranks: true

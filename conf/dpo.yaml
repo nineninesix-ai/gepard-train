@@ -1,0 +1,17 @@
+# Entry config for the DPO pipeline (sample → score → pairs → train).
+# `python -m gepard.cli.dpo` (per-stage CLIs read the same config). MODEL_GUIDE §7.
+# Composes the model groups too so the runner rebuilds the model from one source.
+defaults:
+  - _self_
+  - tokens: qwen3_5
+  - codec: nano_21_5
+  - text_layout: repeat_ft
+  - model: gepard
+  - voice_cloning: qformer_supcon
+  - dpo/sampling@sampling: default
+  - dpo/reward@reward: default
+  - dpo/pairs@pairs: default
+  - dpo/training@training: default
+
+run_name: round_1
+p_floor: 1.0e-4                   # single logprob floor for pairs + training

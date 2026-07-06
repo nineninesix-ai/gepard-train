@@ -1,0 +1,64 @@
+# Dataset sourcing + prep policy. See MODEL_GUIDE §4.2 (singleton / null-prefix).
+# `train_dataset_path` is the prep OUTPUT dir (distinct from trainer.dataset_path,
+# the train READ dir). `hf_datasets` is copied verbatim from the source corpus.
+
+train_dataset_path: "/opt/dlami/nvme/train_dataset"
+# train_dataset_path: "train_dataset"
+max_duration_sec: 40
+
+add_row_id: false
+
+add_speaker_id: true
+singleton_policy: null_prefix       # keep low-count speakers, route via null_prefix
+min_clips_per_speaker: 3            # must be >= supcon.K (validated)
+speaker_statistics: true
+
+processing:
+  num_shards: 20
+  load_dataset_num_proc: 10
+  filter_num_proc: 20
+
+hf_datasets:
+
+
+# ── PUBLIC quickstart source (open data, self-documented on the Hub) ──────────
+# The one fully public dataset, already tokenized with this codec — see its
+# dataset card. Uncomment this block to build/pretrain on open data end-to-end.
+
+- reponame: nineninesix/emolia_filtered_nano_codec_21_dataset
+  local: false
+  name: null
+  split: train
+  text_col_name: text
+  speaker_id_col_name: speaker
+  nano_layer_1: nano_layer_1
+  nano_layer_2: nano_layer_2
+  nano_layer_3: nano_layer_3
+  nano_layer_4: nano_layer_4
+  nano_layer_5: nano_layer_5
+  nano_layer_6: nano_layer_6
+  nano_layer_7: nano_layer_7
+  nano_layer_8: nano_layer_8
+  encoded_len: encoded_len
+
+
+# ── Template — a local dataset WITHOUT speaker labels (all singletons) ─────────
+# Uncomment and edit to add your own source. Keep the leading `-` at column 0
+# (a list item, like the block above) or the YAML won't parse.
+
+
+# - reponame: "your_local_dataset_without_speakers"
+#   local: true
+#   name: null
+#   split: train
+#   text_col_name: text
+#   # speaker_id_col_name: speaker   # omit → every sequence is a 'singleton'
+#   nano_layer_1: nano_layer_1
+#   nano_layer_2: nano_layer_2
+#   nano_layer_3: nano_layer_3
+#   nano_layer_4: nano_layer_4
+#   nano_layer_5: nano_layer_5
+#   nano_layer_6: nano_layer_6
+#   nano_layer_7: nano_layer_7
+#   nano_layer_8: nano_layer_8
+#   encoded_len: encoded_len

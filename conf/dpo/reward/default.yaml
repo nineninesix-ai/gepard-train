@@ -1,0 +1,18 @@
+# DPO stage 2 — programmatic reward (ASR + two-sided duration + SV anchor).
+# See MODEL_GUIDE §7.3.
+whisper_model: distil-whisper/distil-large-v3
+whisper_language: en
+whisper_batch_size: 16
+decode_batch_size: 32
+sec_per_word: 0.4                 # expected_sec = sec_base + sec_per_word * n_words
+sec_base: 0.7
+dur_max_ratio: 2.0               # over-length (runaway) penalty threshold
+dur_min_ratio: 0.3               # too-short (premature stop) penalty threshold
+w_wer: 1.0
+w_over: 0.5
+w_short: 2.0
+w_empty: 2.0
+sim_enabled: true                # WavLM-SV speaker-similarity anchor, MODEL_GUIDE §7.4
+w_sim: 0.5
+sim_model: microsoft/wavlm-base-plus-sv
+sim_sr: 16000

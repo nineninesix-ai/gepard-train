@@ -1,0 +1,10 @@
+# Entry config for dataset build. `python -m gepard.cli.prepare`. See MODEL_GUIDE.
+# Reuses the global invariant groups so the on-disk layout matches training.
+# Defaults build the PRETRAIN corpus (repetition off). To build the SFT corpus,
+# override the layout: `make dataset ... text_layout=repeat_ft` (matches conf/sft.yaml).
+defaults:
+  - _self_
+  - tokens: qwen3_5
+  - codec: nano_21_5
+  - text_layout: pretrain_stage # change to "repeat_ft" while finetuning !!!!!!!
+  - data: full_corpus

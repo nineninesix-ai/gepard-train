@@ -1,0 +1,13 @@
+# No fine-tune checkpoint / no LoRA — used for pretraining from scratch.
+checkpoint_path: ""
+freeze_backbone: false
+freeze_ref_compressor: false
+freeze_supcon_head: false
+freeze_null_prefix: false
+lora:
+  enabled: false
+  rank: 16
+  alpha: 32
+  dropout: 0.0
+  target_modules: [q_proj, k_proj, v_proj, o_proj]
+  last_n_layers: 16

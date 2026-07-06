@@ -1,0 +1,9 @@
+# Adaptive text-repetition layout — global invariant. See MODEL_GUIDE §5.2–5.3.
+# The same layout MUST be applied at training and inference or WER collapses;
+# the build-relevant fields are seeded into the checkpoint config.json.
+enabled: true
+target_text_tokens: 16          # repeat short text up to ~this many text tokens
+apply_below: 13                 # only texts with n_text_tokens < this are repeated
+max_repeats: 8                  # hard cap on R
+mixed_keep_prob: 0.25           # TRAIN-ONLY: fraction of eligible-short rows kept at R=1
+seed: 0                         # TRAIN-ONLY: base RNG seed for the mixed-keep coin flip

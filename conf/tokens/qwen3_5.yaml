@@ -1,0 +1,10 @@
+# Special-token map + tokenizer id — global invariant. See MODEL_GUIDE §2.3, §5.2.
+# Single source of truth for the token ids used across data prep, training and
+# inference; the build-relevant subset is written into the checkpoint config.json.
+tokenizer_name: "nineninesix/qwen3_5-full-attn-only-14"
+tokeniser_length: 248077
+start_of_text: 248073
+end_of_text: 248074
+start_of_speech: 248070
+end_of_speech: 248071
+tts_pad: 248076
