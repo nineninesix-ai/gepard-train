@@ -22,6 +22,7 @@ gepard-train/
 │   │   ├── ref_compressor.py        # (← utils/ref_compressor.py)
 │   │   ├── lora.py                  # (← utils/lora.py)
 │   │   ├── codec_ops.py             # (← utils/codec_ops.py)
+│   │   ├── checkpoint_io.py         # unified ckpt resolve/load    [Stage 2]
 │   │   └── losses/
 │   │       ├── supcon.py            # (← utils/supcon.py)
 │   │       └── dpo.py               # trajectory logprob + dpo_loss  (← utils/dpo.py)
@@ -42,8 +43,7 @@ gepard-train/
 │   │   ├── base.py                  # shared build/ckpt/lora/save/export   [Stage 2]
 │   │   ├── sft.py                   # pretrain + finetune trainer  (← utils/trainer.py)
 │   │   ├── dpo.py                   # DPO training loop            (← train_dpo.py loop)
-│   │   ├── callbacks.py             # (← utils/callbacks.py)
-│   │   └── checkpoint_io.py         # unified ckpt resolve/load    [Stage 2]
+│   │   └── callbacks.py             # (← utils/callbacks.py)
 │   ├── inference/                   # stays in repo, "hidden" inside the package
 │   │   ├── runner.py                # TTSRunner (+ GepardRunner)  (← model_run.py + model_run_cfg.py)
 │   │   └── codec_wrapper.py         # nemo codec, lazy import     (← codec_wrapper.py)
@@ -52,8 +52,8 @@ gepard-train/
 │   │   ├── dashboard.py             # rich.live UI + startup banners
 │   │   └── model_card.py            # training_metadata.json + HF model card  [publish]
 │   └── cli/                         # thin entry points (Hydra apps)
-│       ├── train.py                 # (← train.py)
-│       ├── train_dpo.py             # (← train_dpo.py entry)
+│       ├── train.py                 # pretrain entry              (← train.py)
+│       ├── sft.py                   # SFT/LoRA finetune entry (make finetune, config_name="sft")
 │       └── prepare.py               # (← python -m data.prepare)
 │
 ├── conf/                            # runtime YAML configs   (← configs/;  Hydra layout in Stage 5)

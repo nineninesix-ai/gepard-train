@@ -1,5 +1,6 @@
 # Entry config for the DPO pipeline (sample → score → pairs → train).
-# `python -m gepard.cli.dpo` (per-stage CLIs read the same config). MODEL_GUIDE §7.
+# Per-stage CLIs read the same config: `python -m gepard.data.dpo.{sample,score,pairs}`
+# and `python -m gepard.training.dpo` (see the Makefile dpo-* targets). MODEL_GUIDE §7.
 # Composes the model groups too so the runner rebuilds the model from one source.
 defaults:
   - _self_

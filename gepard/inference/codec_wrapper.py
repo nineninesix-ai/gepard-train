@@ -50,7 +50,7 @@ class UnfoldedCodecModel(AudioCodecModel):
 
         return self.decode_audio(inputs=dequantized, input_len=codes_len)
 
-    def unfold_tokens_np(self, encoded_tokens: np.ndarray, num_levels=(9, 8, 8, 7)) -> np.ndarray:
+    def unfold_tokens_np(self, encoded_tokens: np.ndarray, num_levels=(8, 7, 6, 6)) -> np.ndarray:
         """Mixed-radix decomposition of packed token indices into per-dimension discrete codes.
 
         Args:
@@ -72,7 +72,7 @@ class UnfoldedCodecModel(AudioCodecModel):
         return np.concatenate(parts, axis=0)
 
 
-    def unfold_tokens(self, encoded_tokens: torch.Tensor, num_levels=(9, 8, 8, 7)) -> torch.Tensor:
+    def unfold_tokens(self, encoded_tokens: torch.Tensor, num_levels=(8, 7, 6, 6)) -> torch.Tensor:
         """Mixed-radix decomposition of packed token indices into per-dimension discrete codes.
 
         Args:

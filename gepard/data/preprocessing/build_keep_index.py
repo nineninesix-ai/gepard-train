@@ -22,7 +22,7 @@ prepare_dataset BEFORE the shuffle) and `orig_len.npy` (per-KEPT-row original
 length, aligned to keep_idx, for an optional length-aware sampler).
 
 Usage:
-    python -m data.build_short_keep_index \
+    python -m gepard.data.preprocessing.build_keep_index \
         --dataset /opt/dlami/nvme/finetun_dataset \
         --short-t 13 --target-fraction 0.5 --tail-cap 150 \
         --out-dir /opt/dlami/nvme/finetun_dataset

@@ -1,6 +1,6 @@
 # Dataset sourcing + prep policy. See MODEL_GUIDE §4.2 (singleton / null-prefix).
-# `train_dataset_path` is the prep OUTPUT dir (distinct from trainer.dataset_path,
-# the train READ dir). `hf_datasets` is copied verbatim from the source corpus.
+# `train_dataset_path` is the single source of truth — the prep OUTPUT dir and the
+# train READ dir. `hf_datasets` is copied verbatim from the source corpus.
 
 train_dataset_path: "/opt/dlami/nvme/train_dataset"
 # train_dataset_path: "train_dataset"
