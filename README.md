@@ -97,6 +97,7 @@ make test          # config + golden-baseline tests
 
 - **[gepard-inference](https://github.com/nineninesix-ai/gepard-inference.git)** — the transformers-based inference stack (server + client, plus a ready-to-run Colab for pure inference).
 - **[gepard-vllm](https://github.com/nineninesix-ai/gepard-vllm)** — the vLLM serving "wheels": the production, continuous-batching inference path.
+- **[dataset processing pipeline](https://github.com/nineninesix-ai/nano-codec-processing-pipeline.git)** - Prepare your own audio dataset using nanocodec tokenization.
 
 ## Citation
 
