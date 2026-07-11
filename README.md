@@ -2,7 +2,7 @@
   <img src="assets/logo.png" alt="Gepard Logo" width="100%"/>
   <br><br>
 
-  [![](https://dcbadge.limes.pink/api/server/https://discord.gg/NzP3rjB4SB?style=flat)](https://discord.gg/NzP3rjB4SB) [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+  [![Discord](https://dcbadge.limes.pink/api/server/https://discord.gg/NzP3rjB4SB?style=flat)](https://discord.gg/NzP3rjB4SB) [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Tech Report](https://img.shields.io/badge/📄-Tech%20Report-red.svg)](https://huggingface.co/nineninesix/gepard-1.0/resolve/main/gepard_techreport.pdf) [![API](https://img.shields.io/badge/⚡-Try%20the%20API-brightgreen.svg)](https://www.nineninesix.ai/) [![Space](https://img.shields.io/badge/🤗-Demo%20Space-yellow.svg)](https://huggingface.co/spaces/nineninesix/gepard)
 
 # Gepard — Train
 The reference **training** stack: the data pipeline and the three training stages — pretrain, LoRA fine-tune, and DPO — that produce the model served by [gepard-inference](https://github.com/nineninesix-ai/gepard-inference.git).
