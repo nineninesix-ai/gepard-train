@@ -567,7 +567,11 @@ these exist only in code and were previously undocumented):
     the `[SOT … EOT]` frame — which means **inference must reproduce the same
     prefix for those languages**, or the model sees an out-of-distribution
     prompt. There is currently no inference-side helper that adds it
-    automatically; the caller of `runner.generate(text)` owns this.
+    automatically; the caller of `runner.generate(text)` owns this. The tag is
+    optional and often unnecessary — a script disjoint from the resident
+    languages already identifies itself. When it does and does not earn its
+    cost: [NEW_LANGUAGE_GUIDE.md §10](NEW_LANGUAGE_GUIDE.md#10-the-language-tag--optional-and-usually-skippable),
+    which is also the full recipe for fine-tuning on an unseen language.
 *   **`max_len`** — after the source is fully processed, it is shuffled with a
     fixed seed and truncated to `max_len` rows. Debug/dev tool; leave unset in
     production builds.

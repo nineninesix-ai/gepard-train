@@ -20,7 +20,7 @@ This repository is the **training** side of Gepard. It takes a tokenized speech 
 - **DPO** — offline CFG distillation: self-generated preference pairs bake the quality of two-pass classifier-free guidance into single-pass weights.
 - **Merge & publish** — fold adapters, stamp self-describing checkpoints, and upload Hugging Face-ready models with an auto-generated model card.
 
-Everything is driven by one unified [Hydra](https://hydra.cc) config tree (`conf/`) with a single entry file per phase. The design, architecture, data pipeline, and every training stage are documented in **[docs/MODEL_GUIDE.md](docs/MODEL_GUIDE.md)**. Full experimental detail is in the technical report (**[gepard_techreport.pdf](gepard_techreport.pdf)**).
+Everything is driven by one unified [Hydra](https://hydra.cc) config tree (`conf/`) with a single entry file per phase. The design, architecture, data pipeline, and every training stage are documented in **[docs/MODEL_GUIDE.md](docs/MODEL_GUIDE.md)**. Adding a language the model has never seen has its own recipe: **[docs/NEW_LANGUAGE_GUIDE.md](docs/NEW_LANGUAGE_GUIDE.md)**. Full experimental detail is in the technical report (**[gepard_techreport.pdf](gepard_techreport.pdf)**).
 
 The model these stages produce is:
 
